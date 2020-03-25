@@ -4,6 +4,7 @@ import pt.iul.ista.poo.utils.Point2D;
 
 public class Bateria extends SokobanObject {
     private Point2D position;
+    private int charge = 100;
 
     public Bateria(Point2D position){
         this.position = position;
@@ -23,5 +24,9 @@ public class Bateria extends SokobanObject {
     @Override
     public int getLayer() {
         return 2;
+    }
+
+    public int getCharge() {
+        return this.charge;
     }
 }

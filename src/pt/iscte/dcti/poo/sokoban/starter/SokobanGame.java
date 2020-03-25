@@ -10,6 +10,8 @@ import pt.iul.ista.poo.utils.Point2D;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -29,11 +31,24 @@ public class SokobanGame implements Observer {
  	//stores the instance of the player
 	private Player player;
 	//stores current level, incremented if all objectives are met
-	private int lvl = 0;
+	private int level = 0;
 	
-	public SokobanGame() throws FileNotFoundException {
-		buildLevel(this.lvl);
-		ImageMatrixGUI.getInstance().setStatusMessage("Level: " + this.lvl + " Moves: " + this.player.getTotalMoves() + " Energy: " + this.player.getEnergy());
+	public SokobanGame() throws IOException {
+		//build first level and set the proper status message
+		buildLevel(this.level);
+		ImageMatrixGUI.getInstance().setStatusMessage("Level: " + this.level + " Moves: " + this.player.getTotalMoves() + " Energy: " + this.player.getEnergy());
+
+		if (!new File("levels").exists()) {
+			throw new IllegalArgumentException("The folder with levels is missing.");
+		}
+
+		//create a score folder if it doesnt exist
+		File score_folder = new File("level_scores");
+		score_folder.mkdir();
+		//create a score file for each level if it doesnt exist already, file.createNewFile() handles this for us
+		for(File file : new File("levels").listFiles()) {
+			new File(score_folder.getPath() + "/" + file.getName()).createNewFile();
+		}
 	}
 
 	private void buildLevel(int level) throws FileNotFoundException {
@@ -83,29 +98,41 @@ public class SokobanGame implements Observer {
 		walls.clear();
 		interactables.clear();
 		objectives.clear();
+		this.player = null;
 	}
 
 	@Override
 	public void update(Observed arg0) {
 		int lastKeyPressed = ((ImageMatrixGUI)arg0).keyPressed();
-		//did we beat the final level?
-		if (objectives.stream().mapToInt(Alvo::getState).sum() == objectives.size() && this.lvl == new File("levels").listFiles().length - 1) {
-			ImageMatrixGUI.getInstance().setName("Victory!");
-		}
-		//did we beat the current level? also prevents the game from looking for non existent levels
-		if (objectives.stream().mapToInt(Alvo::getState).sum() == objectives.size() && this.lvl < new File("levels").listFiles().length - 1) {
-			this.clearGameData();
+		//did we beat the current level? if so, advance to the next one(if they exist) and save score.
+		if (objectives.stream().mapToInt(Alvo::getState).sum() == objectives.size() && this.level <= (new File("levels").listFiles().length - 1)) {
+			//the function for the score system is score = 10000 / moves
+			int score = 10000 / this.player.getTotalMoves();
+			System.out.println(score);
+			//write score to file
 			try {
-				this.buildLevel(++this.lvl);
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
+				FileWriter fileWriter = new FileWriter(new File("level_scores/" + "level" + this.level + ".txt"), true);
+				fileWriter.write("\n" + score);
+				fileWriter.close();
+			} catch (IOException e) {
+				System.out.println("Level score file not found, should not happen due to class constructor.");
 			}
-			ImageMatrixGUI.getInstance().update();
+
+			//prevents the game from advancing to non existent levels
+			if (this.level < (new File("levels").listFiles().length - 1)) {
+				this.clearGameData();
+				try {
+					this.buildLevel(++this.level);
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				}
+				ImageMatrixGUI.getInstance().update();
+			}
 		}
-		if (lastKeyPressed >= KeyEvent.VK_LEFT && lastKeyPressed <= KeyEvent.VK_DOWN) {
+		if (Direction.isDirection(lastKeyPressed)) {
 			this.player.move(Direction.directionFor(lastKeyPressed));
 		}
 
-		ImageMatrixGUI.getInstance().setStatusMessage("Level: " + this.lvl + " Moves: " + this.player.getTotalMoves() + " Energy: " + this.player.getEnergy());
+		ImageMatrixGUI.getInstance().setStatusMessage("Level: " + this.level + " Moves: " + this.player.getTotalMoves() + " Energy: " + this.player.getEnergy());
 	}
 }

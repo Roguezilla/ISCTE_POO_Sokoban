@@ -20,9 +20,9 @@ public class Player extends SokobanObject implements MovableObject {
 	private int energy = 100;
 	private int totalMoves = 0;
 	
-	public Player(Point2D initialPosition){
-		position = initialPosition;
-		imageName = facingImage.get(Direction.UP);
+	public Player(Point2D position){
+		this.position = position;
+		this.imageName = facingImage.get(Direction.UP);
 	}
 	
 	@Override
@@ -52,6 +52,10 @@ public class Player extends SokobanObject implements MovableObject {
 		return this.totalMoves;
 	}
 
+	public void setPosition(Point2D position) {
+		this.position = position;
+	}
+
 	@Override
 	public void move(Direction direction) {
 		Point2D newPosition = position.plus(direction.asVector());
@@ -73,21 +77,28 @@ public class Player extends SokobanObject implements MovableObject {
 			this.position = newPosition;
 
 			//did the box collide with a battery? if so, add energy remove it from the game
-			SokobanObject possibleBatteryCollision = SokobanGame.interactables.stream().filter(object -> object instanceof Bateria).filter(caixote -> caixote.getPosition().equals(position)).findFirst().orElse(null);
+			Bateria possibleBatteryCollision = (Bateria)SokobanGame.interactables.stream().filter(object -> object instanceof Bateria).filter(caixote -> caixote.getPosition().equals(position)).findFirst().orElse(null);
 			if (possibleBatteryCollision != null) {
-				this.energy += 1000;
+				this.energy += possibleBatteryCollision.getCharge();
+
 				ImageMatrixGUI.getInstance().removeImage(possibleBatteryCollision);
 				SokobanGame.interactables.remove(possibleBatteryCollision);
+			}
+
+			//did the box collide with a hole? if so, exit from the game
+			Buraco holeCollision = (Buraco)SokobanGame.interactables.stream().filter(object -> object instanceof Buraco).filter(buraco -> buraco.getPosition().equals(this.position)).findFirst().orElse(null);
+			if (holeCollision != null) {
+				System.exit(0);
 			}
 		}
 
 		this.setImageName(this.facingImage.get(direction));
 
 		this.totalMoves++;
-		this.energy -= 10;
-
+		//1 move costs 1 energy
+		this.energy -= 1;
 		if (this.energy < 0) {
-			//System.exit(0);
+			System.exit(0);
 		}
 
 		ImageMatrixGUI.getInstance().update();

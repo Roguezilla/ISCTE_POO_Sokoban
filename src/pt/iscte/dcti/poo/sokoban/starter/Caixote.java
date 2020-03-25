@@ -52,11 +52,9 @@ public class Caixote extends SokobanObject implements MovableObject {
                 moveIntoObjectiveCollision.setState(1);
             }
 
-            //did the box collide with a hole? if so, remove it from the game
+            //did the box collide with a hole? if so, exit from the game
             Buraco holeCollision = (Buraco)SokobanGame.interactables.stream().filter(object -> object instanceof Buraco).filter(buraco -> buraco.getPosition().equals(this.position)).findFirst().orElse(null);
             if (holeCollision != null) {
-                ImageMatrixGUI.getInstance().removeImage(this);
-                SokobanGame.interactables.remove(this);
                 System.exit(0);
             }
         }
