@@ -6,9 +6,7 @@ public class Alvo extends SokobanObject implements ActiveObject {
     private int state = 0;
 
     public Alvo(Point2D position, String imageName) {
-        super(2);
-        this.position = position;
-        this.imageName = imageName;
+        super(2, position, imageName);
         SokobanGame.objects.add(this);
     }
 

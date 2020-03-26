@@ -7,8 +7,8 @@ import java.util.List;
 
 //extended by all movable objects
 public abstract class MovableObject extends SokobanObject {
-    MovableObject(int layer) {
-        super(layer);
+    MovableObject(int layer, Point2D position, String imageName) {
+        super(layer, position, imageName);
     }
 
     //only Player overrides this function

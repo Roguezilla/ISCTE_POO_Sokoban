@@ -5,9 +5,7 @@ import pt.iul.ista.poo.utils.Point2D;
 
 public class SmallStone extends MovableObject implements ActiveObject {
     public SmallStone(Point2D position, String imageName) {
-        super(3);
-        this.position = position;
-        this.imageName = imageName;
+        super(3, position, imageName);
         SokobanGame.objects.add(this);
     }
 

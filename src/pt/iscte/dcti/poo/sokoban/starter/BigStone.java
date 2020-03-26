@@ -7,9 +7,7 @@ public class BigStone extends MovableObject implements ActiveObject {
     private boolean isInHole = false;
 
     public BigStone(Point2D position, String imageName) {
-        super(3);
-        this.position = position;
-        this.imageName = imageName;
+        super(3, position, imageName);
         SokobanGame.objects.add(this);
     }
 

@@ -9,8 +9,10 @@ public abstract class SokobanObject implements ImageTile {
     String imageName;
     int layer = 0;
 
-    SokobanObject(int layer) {
+    SokobanObject(int layer, Point2D position, String imageName) {
         this.layer = layer;
+        this.position = position;
+        this.imageName = imageName;
     }
 
     @Override

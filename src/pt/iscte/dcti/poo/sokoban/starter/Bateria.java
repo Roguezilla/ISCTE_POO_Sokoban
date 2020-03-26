@@ -7,9 +7,7 @@ public class Bateria extends SokobanObject implements ActiveObject {
     private int charge = 100;
 
     public Bateria(Point2D position, String imageName) {
-        super(2);
-        this.position = position;
-        this.imageName = imageName;
+        super(2, position, imageName);
         SokobanGame.objects.add(this);
     }
 
@@ -20,7 +18,7 @@ public class Bateria extends SokobanObject implements ActiveObject {
     @Override
     public void interactWith(SokobanObject object) {
         if (object instanceof Player) {
-            ((Player)object).addEnergy(this.charge);
+            ((Player)object).addEnergy(this.getCharge());
             SokobanGame.objects.remove(this);
             ImageMatrixGUI.getInstance().removeImage(this);
         }

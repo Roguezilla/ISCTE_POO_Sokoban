@@ -20,9 +20,7 @@ public class Player extends MovableObject {
 	private Direction direction;
 	
 	public Player(Point2D position) {
-		super(3);
-		this.position = position;
-		this.imageName = facingImage.get(Direction.UP);
+		super(3, position, "Empilhadora_U");
 		SokobanGame.objects.add(this);
 	}
 
