@@ -1,0 +1,38 @@
+package pt.iscte.dcti.poo.sokoban.starter;
+
+import pt.iul.ista.poo.gui.ImageTile;
+import pt.iul.ista.poo.utils.Point2D;
+
+//every object in the game extends this class
+public abstract class SokobanObject implements ImageTile {
+    Point2D position;
+    String imageName;
+    int layer = 0;
+
+    SokobanObject(int layer) {
+        this.layer = layer;
+    }
+
+    @Override
+    public int getLayer() {
+        return this.layer;
+    }
+
+    @Override
+    public Point2D getPosition() {
+        return this.position;
+    }
+
+    @Override
+    public String getName() {
+        return this.imageName;
+    }
+
+    void interactWith(SokobanObject object) {
+
+    }
+
+    boolean isAt(Point2D position) {
+        return this.getPosition().equals(position);
+    }
+}

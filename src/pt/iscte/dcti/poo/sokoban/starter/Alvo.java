@@ -1,0 +1,29 @@
+package pt.iscte.dcti.poo.sokoban.starter;
+
+import pt.iul.ista.poo.utils.Point2D;
+
+public class Alvo extends SokobanObject implements ActiveObject {
+    private int state = 0;
+
+    public Alvo(Point2D position, String imageName) {
+        super(2);
+        this.position = position;
+        this.imageName = imageName;
+        SokobanGame.objects.add(this);
+    }
+
+    public int getState() {
+        return this.state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+    }
+
+    @Override
+    void interactWith(SokobanObject object) {
+        if (object instanceof Player) {
+            this.setState(0);
+        }
+    }
+}
