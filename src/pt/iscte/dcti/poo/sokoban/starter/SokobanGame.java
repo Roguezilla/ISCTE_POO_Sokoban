@@ -9,6 +9,8 @@ import pt.iul.ista.poo.utils.Point2D;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -16,20 +18,23 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class SokobanGame implements Observer {
+	//stores the instance
+	private static SokobanGame INSTANCE = null;
 	//a list of every object in the game
- 	public static List<SokobanObject> objects = new ArrayList<>();
+ 	public List<SokobanObject> objects = new ArrayList<>();
  	//stores the instance of the player
 	private Player player;
 	//stores current level, incremented if all objectives are met
 	private int level = 0;
-	//store gamestate, usused as of right now
-	private boolean won = false;
+	//stores game state, prevents writing score after completeting the last level
+	private boolean gameWon = false;
 
-	//needs to be changed so i can turn this into a singleton
-	public SokobanGame() {
-		//build first level and set the proper status message
-		buildLevel(this.level);
-		ImageMatrixGUI.getInstance().setStatusMessage("Level: " + this.level + " Moves: " + this.player.getTotalMoves() + " Energy: " + this.player.getEnergy());
+	public static SokobanGame getInstance() {
+		if (INSTANCE == null) {
+			INSTANCE = new SokobanGame();
+		}
+
+		return INSTANCE;
 	}
 
 	private void buildLevel(int level) {
@@ -88,12 +93,20 @@ public class SokobanGame implements Observer {
 		}
 	}
 
+	//handles multiple collisions at once
 	public static List<SokobanObject> selectObjects(Predicate<SokobanObject> predicate) {
-		return objects.stream().filter(predicate).collect(Collectors.toList());
+		return SokobanGame.getInstance().objects.stream().filter(predicate).collect(Collectors.toList());
 	}
 
+	//handles single collisions, used for very specific collisions
 	public static SokobanObject selectObject(Predicate<SokobanObject> predicate) {
-		return objects.stream().filter(predicate).findFirst().orElse(null);
+		return SokobanGame.getInstance().objects.stream().filter(predicate).findFirst().orElse(null);
+	}
+
+	//builds the first level and sets the appropriate status message
+	public void build() {
+		buildLevel(this.level);
+		ImageMatrixGUI.getInstance().setStatusMessage("Level: " + this.level + " Moves: " + this.player.getTotalMoves() + " Energy: " + this.player.getEnergy());
 	}
 
 	//clears the level images, collidable objects and objectives
@@ -106,8 +119,37 @@ public class SokobanGame implements Observer {
 	@Override
 	public void update(Observed arg0) {
 		int lastKeyPressed = ((ImageMatrixGUI)arg0).keyPressed();
-		//did we beat the current level? if so, advance to the next one(if they exist) and save score.
-		if (objects.stream().filter(sokobanObject -> sokobanObject instanceof Alvo).mapToInt(alvo -> ((Alvo)alvo).getState()).sum() == objects.stream().filter(sokobanObject -> sokobanObject instanceof Alvo).count() && this.level <= (new File("levels").listFiles().length - 1)) {
+		//did we beat the current level? if so, advance to the next one(if they exist) and save score. also dont call this whole chunk of we won the game
+		if (!this.gameWon && this.objects.stream().filter(sokobanObject -> sokobanObject instanceof Alvo).mapToInt(alvo -> ((Alvo)alvo).getState()).sum() == this.objects.stream().filter(sokobanObject -> sokobanObject instanceof Alvo).count() && this.level <= (new File("levels").listFiles().length - 1)) {
+			//handles score saving
+			{
+				//create a score folder if it doesnt exist
+				File score_folder = new File("level_scores");
+				score_folder.mkdir();
+				//create a score file for each level if it doesnt exist already, file.createNewFile() handles this for us
+				for(File file : new File("levels").listFiles()) {
+					try {
+						new File(score_folder.getPath() + "/" + file.getName()).createNewFile();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+				//the function for the score system is score = 10000 / moves
+				int score = 10000 / this.player.getTotalMoves();
+				System.out.println(this.player.getTotalMoves() + " " + score);
+				try {
+					FileWriter fileWriter = new FileWriter(new File("level_scores/" + "level" + this.level + ".txt"), true);
+					fileWriter.write("\n" + score);
+					fileWriter.close();
+				} catch (IOException e) {
+					System.out.println("Level score file not found, should not happen due to class constructor.");
+				}
+			}
+			//did we complete all levels?
+			if (this.level == (new File("levels").listFiles().length - 1)) {
+				ImageMatrixGUI.getInstance().setName("Victory!");
+				this.gameWon = true;
+			}
 			//prevents the game from advancing to non existent levels
 			if (this.level < (new File("levels").listFiles().length - 1)) {
 				this.clearGameData();

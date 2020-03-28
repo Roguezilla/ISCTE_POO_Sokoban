@@ -6,7 +6,7 @@ import pt.iul.ista.poo.utils.Point2D;
 public class SmallStone extends MovableObject implements ActiveObject {
     public SmallStone(Point2D position, String imageName) {
         super(3, position, imageName);
-        SokobanGame.objects.add(this);
+        SokobanGame.getInstance().objects.add(this);
     }
 
     @Override
@@ -14,7 +14,7 @@ public class SmallStone extends MovableObject implements ActiveObject {
         if (object instanceof Player) {
             this.move(((Player)object).getDirection());
         } else if (object instanceof Buraco) {
-            SokobanGame.objects.remove(this);
+            SokobanGame.getInstance().objects.remove(this);
             ImageMatrixGUI.getInstance().removeImage(this);
         }
     }

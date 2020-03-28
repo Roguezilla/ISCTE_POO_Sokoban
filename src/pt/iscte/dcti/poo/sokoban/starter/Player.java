@@ -21,7 +21,7 @@ public class Player extends MovableObject {
 	
 	public Player(Point2D position) {
 		super(3, position, "Empilhadora_U");
-		SokobanGame.objects.add(this);
+		SokobanGame.getInstance().objects.add(this);
 	}
 
 	public void setImageName(String imageName) {

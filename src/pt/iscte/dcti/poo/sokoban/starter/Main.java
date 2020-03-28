@@ -7,8 +7,8 @@ import java.io.IOException;
 public class Main {
 	public static void main(String[] args) throws IOException {
 		ImageMatrixGUI.setSize(10, 10);
-		SokobanGame s = new SokobanGame();
-		ImageMatrixGUI.getInstance().registerObserver(s);
+		SokobanGame.getInstance().build();
+		ImageMatrixGUI.getInstance().registerObserver(SokobanGame.getInstance());
 		ImageMatrixGUI.getInstance().go();
 	}
 }

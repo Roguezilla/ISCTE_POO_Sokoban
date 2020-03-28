@@ -8,7 +8,7 @@ public class BigStone extends MovableObject implements ActiveObject {
 
     public BigStone(Point2D position, String imageName) {
         super(3, position, imageName);
-        SokobanGame.objects.add(this);
+        SokobanGame.getInstance().objects.add(this);
     }
 
     public boolean isInHole() {
@@ -21,7 +21,7 @@ public class BigStone extends MovableObject implements ActiveObject {
             this.move(((Player)object).getDirection());
         } else if (object instanceof Buraco) {
             this.isInHole = true;
-            SokobanGame.objects.remove(object);
+            SokobanGame.getInstance().objects.remove(object);
             ImageMatrixGUI.getInstance().removeImage(object);
         }
     }
