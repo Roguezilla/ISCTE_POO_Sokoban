@@ -1,5 +1,6 @@
 package pt.iscte.dcti.poo.sokoban.starter;
 
+import pt.iul.ista.poo.gui.ImageMatrixGUI;
 import pt.iul.ista.poo.utils.Point2D;
 
 public class Buraco extends SokobanObject implements ActiveObject {
@@ -11,7 +12,8 @@ public class Buraco extends SokobanObject implements ActiveObject {
     @Override
     public void interactWith(SokobanObject object) {
         if (object instanceof Player) {
-            System.exit(0);
+            ImageMatrixGUI.getInstance().dispose();
+            //System.exit(0);
         }
     }
 }

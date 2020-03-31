@@ -48,10 +48,10 @@ public class Player extends MovableObject {
 	public boolean canMoveTo(Point2D position) {
 		//are we in bounds? walls make this kinda useless, but you never know
 		if (!(position.getX() >=0 && position.getX() < 10 && position.getY() >= 0 && position.getY() < 10)) return false;
-		//did we hit a wall? if so, dont move
-		if (SokobanGame.selectObject(sokobanObject -> sokobanObject instanceof Parede && sokobanObject.isAt(position)) != null) return false;
-		//did we hit a stone thats in a hole? if so, dont move
-		if (SokobanGame.selectObject(sokobanObject -> sokobanObject instanceof BigStone && sokobanObject.isAt(position) && ((BigStone)sokobanObject).isInHole()) != null) return false;
+		//did we hit an obstacle? if so, dont move
+		if (SokobanGame.selectObject(sokobanObject -> sokobanObject instanceof ObstacleObject && sokobanObject.isAt(position)) != null) return false;
+		//did we hit a dynamic obstacle? if so, we check if that object cant move and if not we dont move either
+		if (SokobanGame.selectObject(sokobanObject -> sokobanObject instanceof DynamicObstacleObject && sokobanObject.isAt(position) && ((DynamicObstacleObject)sokobanObject).canMove()) != null) return false;
 		//did we hit a movable object? if so, can that movable object be moved?
 		MovableObject possibleCollision = (MovableObject)SokobanGame.selectObject(sokobanObject -> sokobanObject.isAt(position) && sokobanObject instanceof MovableObject);
 		if (possibleCollision != null) {
@@ -71,7 +71,7 @@ public class Player extends MovableObject {
 
 		List<SokobanObject> possibleCollisions = SokobanGame.selectObjects(sokobanObject -> sokobanObject.getPosition().equals(newPosition) && sokobanObject instanceof ActiveObject);
 		for (SokobanObject possibleCollision : possibleCollisions) {
-			possibleCollision.interactWith(this);
+			((ActiveObject)possibleCollision).interactWith(this);
 		}
 
 		this.totalMoves++;

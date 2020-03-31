@@ -19,7 +19,7 @@ public class Alvo extends SokobanObject implements ActiveObject {
     }
 
     @Override
-    void interactWith(SokobanObject object) {
+    public void interactWith(SokobanObject object) {
         if (object instanceof Player) {
             this.setState(0);
         }

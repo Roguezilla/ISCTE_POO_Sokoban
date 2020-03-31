@@ -11,10 +11,9 @@ public abstract class MovableObject extends SokobanObject {
         super(layer, position, imageName);
     }
 
-    //only Player overrides this function
     public boolean canMoveTo(Point2D position) {
         if (!(position.getX() >= 0 && position.getX() < 10 && position.getY() >= 0 && position.getY() < 10)) return false;
-        if (SokobanGame.selectObject(sokobanObject -> sokobanObject instanceof Parede && sokobanObject.isAt(position)) != null) return false;
+        if (SokobanGame.selectObject(sokobanObject -> sokobanObject instanceof ObstacleObject && sokobanObject.isAt(position)) != null) return false;
         if (SokobanGame.selectObject(sokobanObject -> sokobanObject.isAt(position) && (sokobanObject instanceof MovableObject || sokobanObject instanceof Bateria)) != null) return false;
         return true;
     }
@@ -27,7 +26,7 @@ public abstract class MovableObject extends SokobanObject {
 
         List<SokobanObject> possibleCollisions = SokobanGame.selectObjects(sokobanObject -> sokobanObject.isAt(newPosition) && sokobanObject instanceof ActiveObject);
         for (SokobanObject possibleCollision : possibleCollisions) {
-            this.interactWith(possibleCollision);
+            ((ActiveObject)this).interactWith(possibleCollision);
         }
     }
 }

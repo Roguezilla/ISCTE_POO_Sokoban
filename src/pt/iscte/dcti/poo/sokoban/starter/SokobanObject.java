@@ -30,10 +30,6 @@ public abstract class SokobanObject implements ImageTile {
         return this.imageName;
     }
 
-    void interactWith(SokobanObject object) {
-
-    }
-
     boolean isAt(Point2D position) {
         return this.getPosition().equals(position);
     }
