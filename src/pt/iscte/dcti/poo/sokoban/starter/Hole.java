@@ -3,10 +3,10 @@ package pt.iscte.dcti.poo.sokoban.starter;
 import pt.iul.ista.poo.gui.ImageMatrixGUI;
 import pt.iul.ista.poo.utils.Point2D;
 
-public class Buraco extends SokobanObject implements ActiveObject {
-    public Buraco(Point2D position, String imageName) {
+public class Hole extends SokobanObject implements ActiveObject {
+    public Hole(Point2D position, String imageName) {
         super(2, position, imageName);
-        SokobanGame.getInstance().objects.add(this);
+        Sokoban.getInstance().objects.add(this);
     }
 
     @Override

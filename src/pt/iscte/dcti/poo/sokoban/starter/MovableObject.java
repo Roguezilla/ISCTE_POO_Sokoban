@@ -13,18 +13,18 @@ public abstract class MovableObject extends SokobanObject {
 
     public boolean canMoveTo(Point2D position) {
         if (!(position.getX() >= 0 && position.getX() < 10 && position.getY() >= 0 && position.getY() < 10)) return false;
-        if (SokobanGame.selectObject(sokobanObject -> sokobanObject instanceof ObstacleObject && sokobanObject.isAt(position)) != null) return false;
-        if (SokobanGame.selectObject(sokobanObject -> sokobanObject.isAt(position) && (sokobanObject instanceof MovableObject || sokobanObject instanceof Bateria)) != null) return false;
+        if (Sokoban.getInstance().selectObject(sokobanObject -> sokobanObject instanceof StaticObject && sokobanObject.isAt(position)) != null) return false;
+        if (Sokoban.getInstance().selectObject(sokobanObject -> sokobanObject.isAt(position) && (sokobanObject instanceof MovableObject || sokobanObject instanceof Battery)) != null) return false;
         return true;
     }
 
     public void move(Direction direction) {
-        Point2D newPosition = position.plus(direction.asVector());
+        Point2D newPosition = this.position.plus(direction.asVector());
         if (!this.canMoveTo(newPosition)) return;
 
         this.position = newPosition;
 
-        List<SokobanObject> possibleCollisions = SokobanGame.selectObjects(sokobanObject -> sokobanObject.isAt(newPosition) && sokobanObject instanceof ActiveObject);
+        List<SokobanObject> possibleCollisions = Sokoban.getInstance().selectObjects(sokobanObject -> sokobanObject.isAt(newPosition) && sokobanObject instanceof ActiveObject);
         for (SokobanObject possibleCollision : possibleCollisions) {
             ((ActiveObject)this).interactWith(possibleCollision);
         }

@@ -21,7 +21,6 @@ public class Player extends MovableObject {
 	
 	public Player(Point2D position) {
 		super(3, position, "Empilhadora_U");
-		SokobanGame.getInstance().objects.add(this);
 	}
 
 	public void setImageName(String imageName) {
@@ -49,11 +48,11 @@ public class Player extends MovableObject {
 		//are we in bounds? walls make this kinda useless, but you never know
 		if (!(position.getX() >=0 && position.getX() < 10 && position.getY() >= 0 && position.getY() < 10)) return false;
 		//did we hit an obstacle? if so, dont move
-		if (SokobanGame.selectObject(sokobanObject -> sokobanObject instanceof ObstacleObject && sokobanObject.isAt(position)) != null) return false;
+		if (Sokoban.getInstance().selectObject(sokobanObject -> sokobanObject instanceof StaticObject && sokobanObject.isAt(position)) != null) return false;
 		//did we hit a dynamic obstacle? if so, we check if that object cant move and if not we dont move either
-		if (SokobanGame.selectObject(sokobanObject -> sokobanObject instanceof DynamicObstacleObject && sokobanObject.isAt(position) && ((DynamicObstacleObject)sokobanObject).canMove()) != null) return false;
+		if (Sokoban.getInstance().selectObject(sokobanObject -> sokobanObject instanceof DynamicObject && sokobanObject.isAt(position) && ((DynamicObject)sokobanObject).canMove()) != null) return false;
 		//did we hit a movable object? if so, can that movable object be moved?
-		MovableObject possibleCollision = (MovableObject)SokobanGame.selectObject(sokobanObject -> sokobanObject.isAt(position) && sokobanObject instanceof MovableObject);
+		MovableObject possibleCollision = (MovableObject) Sokoban.getInstance().selectObject(sokobanObject -> sokobanObject.isAt(position) && sokobanObject instanceof MovableObject);
 		if (possibleCollision != null) {
 			return possibleCollision.canMoveTo(position.plus(this.getDirection().asVector()));
 		}
@@ -64,12 +63,12 @@ public class Player extends MovableObject {
 	public void move(Direction direction) {
 		this.direction = direction;
 
-		Point2D newPosition = position.plus(this.direction.asVector());
+		Point2D newPosition = position.plus(direction.asVector());
 		if (!this.canMoveTo(newPosition)) return;
 
 		this.position = newPosition;
 
-		List<SokobanObject> possibleCollisions = SokobanGame.selectObjects(sokobanObject -> sokobanObject.getPosition().equals(newPosition) && sokobanObject instanceof ActiveObject);
+		List<SokobanObject> possibleCollisions = Sokoban.getInstance().selectObjects(sokobanObject -> sokobanObject.getPosition().equals(newPosition) && sokobanObject instanceof ActiveObject);
 		for (SokobanObject possibleCollision : possibleCollisions) {
 			((ActiveObject)possibleCollision).interactWith(this);
 		}
