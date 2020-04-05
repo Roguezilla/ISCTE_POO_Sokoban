@@ -7,7 +7,7 @@ import pt.iul.ista.poo.utils.Point2D;
 public abstract class SokobanObject implements ImageTile {
     Point2D position;
     String imageName;
-    int layer = 0;
+    int layer;
 
     SokobanObject(int layer, Point2D position, String imageName) {
         this.layer = layer;
@@ -30,6 +30,7 @@ public abstract class SokobanObject implements ImageTile {
         return this.imageName;
     }
 
+    //only exists because its easier to type just isAt(pos)
     boolean isAt(Point2D position) {
         return this.getPosition().equals(position);
     }

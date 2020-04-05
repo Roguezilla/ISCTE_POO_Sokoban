@@ -3,7 +3,7 @@ package pt.iscte.dcti.poo.sokoban.starter;
 import pt.iul.ista.poo.gui.ImageMatrixGUI;
 import pt.iul.ista.poo.utils.Point2D;
 
-public class Battery extends SokobanObject implements ActiveObject {
+public class Battery extends SokobanObject implements ActiveObject, PickupObject {
     private int charge = 100;
 
     public Battery(Point2D position, String imageName) {

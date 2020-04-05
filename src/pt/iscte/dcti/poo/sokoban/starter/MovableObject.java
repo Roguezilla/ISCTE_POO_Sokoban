@@ -12,9 +12,15 @@ public abstract class MovableObject extends SokobanObject {
     }
 
     public boolean canMoveTo(Point2D position) {
+        //is the movable object in bounds? walls make this kinda useless, but you never know
         if (!(position.getX() >= 0 && position.getX() < 10 && position.getY() >= 0 && position.getY() < 10)) return false;
+        //did the movable object hit a static object? if so, deny movement
         if (Sokoban.getInstance().selectObject(sokobanObject -> sokobanObject instanceof StaticObject && sokobanObject.isAt(position)) != null) return false;
-        if (Sokoban.getInstance().selectObject(sokobanObject -> sokobanObject.isAt(position) && (sokobanObject instanceof MovableObject || sokobanObject instanceof Battery)) != null) return false;
+        //did the movable object hit another movable object? if so, deny movement
+        if (Sokoban.getInstance().selectObject(sokobanObject -> sokobanObject.isAt(position) && sokobanObject instanceof MovableObject) != null) return false;
+        //did the movable object hit an object the player can pick up? if so, deny movement
+        if (Sokoban.getInstance().selectObject(sokobanObject -> sokobanObject.isAt(position) && sokobanObject instanceof PickupObject) != null) return false;
+
         return true;
     }
 
@@ -24,6 +30,7 @@ public abstract class MovableObject extends SokobanObject {
 
         this.position = newPosition;
 
+        //get all the active objects that the movable objects collided with and interact with them
         List<SokobanObject> possibleCollisions = Sokoban.getInstance().selectObjects(sokobanObject -> sokobanObject.isAt(newPosition) && sokobanObject instanceof ActiveObject);
         for (SokobanObject possibleCollision : possibleCollisions) {
             ((ActiveObject)this).interactWith(possibleCollision);
