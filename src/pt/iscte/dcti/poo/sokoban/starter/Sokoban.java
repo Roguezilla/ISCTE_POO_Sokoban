@@ -40,40 +40,42 @@ public class Sokoban implements Observer {
 		return INSTANCE;
 	}
 
-	private ImageTile getImageTileFromChar(char currentChar, int i, int y) {
+	private ImageTile getImageTileFromChar(char currentChar, int x, int y) {
 		switch (currentChar) {
 			case '#': {
-				return new Wall(new Point2D(i, y), "Parede");
+				return new Wall(new Point2D(x, y), "Parede");
 			} case 'X': {
-				return new Objective(new Point2D(i, y), "Alvo");
+				return new Objective(new Point2D(x, y), "Alvo");
 			} case 'C': {
-				return new Box(new Point2D(i, y), "Caixote");
+				return new Box(new Point2D(x, y), "Caixote");
 			} case 'O': {
-				return new Hole(new Point2D(i, y), "Buraco");
+				return new Hole(new Point2D(x, y), "Buraco");
 			} case 'p': {
-				return new SmallStone(new Point2D(i, y), "SmallStone");
+				return new SmallStone(new Point2D(x, y), "SmallStone");
 			} case 'P': {
-				return new BigStone(new Point2D(i, y), "BigStone");
+				return new BigStone(new Point2D(x, y), "BigStone");
 			} case 'b': {
-				return new Battery(new Point2D(i, y), "Bateria");
+				return new Battery(new Point2D(x, y), "Bateria");
 			} case 'E': {
-				this.player = new Player(new Point2D(i, y));
+				this.player = new Player(new Point2D(x, y));
 				return player;
 			} default: {
-				return new Floor(new Point2D(i, y), "Chao");
+				return new Floor(new Point2D(x, y), "Chao");
 			}
 		}
 	}
 
 	private void buildLevel(int level) {
-		try {
-			List<ImageTile> tileSet = new ArrayList<>();
-			for (int i = 0; i < 10; i++) {
-				for (int j = 0; j < 10; j++) {
-					tileSet.add(new Floor(new Point2D(i, j), "Chao"));
-				}
-			}
+		List<ImageTile> tileSet = new ArrayList<>();
 
+		//fill the screen with floor tiles first so that we dont have to worry about missing floor under movable objects after we move them from their initial position
+		for (int i = 0; i < 10; i++) {
+			for (int j = 0; j < 10; j++) {
+				tileSet.add(new Floor(new Point2D(i, j), "Chao"));
+			}
+		}
+
+		try {
 			Scanner scanner = new Scanner(new File("levels/level" + level + ".txt"));
 			int y = 0;
 			while (scanner.hasNextLine()) {
@@ -83,11 +85,11 @@ public class Sokoban implements Observer {
 				}
 				y++;
 			}
-
-			ImageMatrixGUI.getInstance().addImages(tileSet);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
+
+		ImageMatrixGUI.getInstance().addImages(tileSet);
 	}
 
 	//handles multiple collisions at once
@@ -116,7 +118,7 @@ public class Sokoban implements Observer {
 			try {
 				new File(score_folder.getPath() + "/" + file.getName()).createNewFile();
 			} catch (IOException e) {
-				e.printStackTrace();
+				System.out.println("Can't create " + score_folder.getPath() + "/" + file.getName());
 			}
 		}
 		//the function for the score system is score = 10000 / moves
@@ -127,7 +129,7 @@ public class Sokoban implements Observer {
 			fileWriter.write(score + ", ");
 			fileWriter.close();
 		} catch (IOException e) {
-			System.out.println("Apparently theres no score folder, how did this even happen?");
+			System.out.println("Can't find " + score_folder.getPath() + "/" + "level" + this.level + ".txt");
 		}
 	}
 
