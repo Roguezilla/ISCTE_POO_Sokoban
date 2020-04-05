@@ -1,5 +1,6 @@
 package pt.iscte.dcti.poo.sokoban.starter;
 
+import pt.iul.ista.poo.gui.ImageMatrixGUI;
 import pt.iul.ista.poo.utils.Point2D;
 
 public class Box extends MovableObject implements ActiveObject {
@@ -15,7 +16,8 @@ public class Box extends MovableObject implements ActiveObject {
         } else if (object instanceof Objective) {
             ((Objective)object).setState(1);
         } else if (object instanceof Hole) {
-            System.exit(0);
+            ImageMatrixGUI.getInstance().dispose();
+            System.exit(1);
         }
     }
 }

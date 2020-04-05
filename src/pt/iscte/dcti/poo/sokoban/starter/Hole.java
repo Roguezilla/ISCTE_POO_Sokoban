@@ -13,7 +13,7 @@ public class Hole extends SokobanObject implements ActiveObject {
     public void interactWith(SokobanObject object) {
         if (object instanceof Player) {
             ImageMatrixGUI.getInstance().dispose();
-            //System.exit(0);
+            System.exit(0);
         }
     }
 }
