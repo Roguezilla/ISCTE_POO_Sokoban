@@ -3,8 +3,8 @@ package pt.iscte.dcti.poo.sokoban.starter;
 import pt.iul.ista.poo.gui.ImageMatrixGUI;
 import pt.iul.ista.poo.utils.Point2D;
 
-public class Battery extends SokobanObject implements ActiveObject, PickupObject {
-    private int charge = 100;
+public class Battery extends SokobanObject implements ActiveObject, PickupableObject {
+    private final int CHARGE = 100;
 
     public Battery(Point2D position, String imageName) {
         super(2, position, imageName);
@@ -12,7 +12,7 @@ public class Battery extends SokobanObject implements ActiveObject, PickupObject
     }
 
     public int getCharge() {
-        return this.charge;
+        return this.CHARGE;
     }
 
     @Override
