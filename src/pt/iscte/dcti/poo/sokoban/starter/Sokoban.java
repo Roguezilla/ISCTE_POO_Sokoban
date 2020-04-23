@@ -144,21 +144,23 @@ public class Sokoban implements Observer {
 			this.player.move(Direction.directionFor(lastKeyPressed));
 		}
 
-		//did we beat the current level? if so, advance to the next one(if they exist) and save score. also dont call this whole chunk of if we won the game
-		if (!this.gameWon
-				&& this.objects.stream().filter(sokobanObject -> sokobanObject instanceof Objective).mapToInt(sokobanObject -> ((Objective)sokobanObject).getState()).sum() == this.objects.stream().filter(sokobanObject -> sokobanObject instanceof Objective).count()
-				&& this.level <= (new File("levels").listFiles().length - 1)) {
-			//handles score saving
-			this.saveScore();
-			//did we complete all levels?
-			if (this.level == (new File("levels").listFiles().length - 1)) {
-				ImageMatrixGUI.getInstance().setName("Victory!");
-				this.gameWon = true;
-			}
-			//advance level if we arent on the last level
-			if (this.level < (new File("levels").listFiles().length - 1)) {
-				this.clearGameData();
-				this.buildLevel(++this.level);
+		//avoid checking objectives if we already beat all levels
+		if (!this.gameWon) {
+			//did we beat the current level? if so, advance to the next one and save score.
+			if (this.objects.stream().filter(sokobanObject -> sokobanObject instanceof Objective).mapToInt(sokobanObject -> ((Objective)sokobanObject).getState()).sum() == this.objects.stream().filter(sokobanObject -> sokobanObject instanceof Objective).count()
+					&& this.level <= (new File("levels").listFiles().length - 1)) {
+				//handles score saving
+				this.saveScore();
+				//did we complete all levels?
+				if (this.level == (new File("levels").listFiles().length - 1)) {
+					ImageMatrixGUI.getInstance().setName("Victory!");
+					this.gameWon = true;
+				}
+				//advance level if we arent on the last level
+				if (this.level < (new File("levels").listFiles().length - 1)) {
+					this.clearGameData();
+					this.buildLevel(++this.level);
+				}
 			}
 		}
 
