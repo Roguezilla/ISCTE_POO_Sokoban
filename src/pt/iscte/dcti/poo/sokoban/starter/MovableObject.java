@@ -33,7 +33,7 @@ public abstract class MovableObject extends SokobanObject {
         //get all the active objects that the movable objects collided with and interact with them
         List<SokobanObject> possibleCollisions = Sokoban.getInstance().selectObjects(sokobanObject -> sokobanObject.isAt(newPosition) && sokobanObject instanceof ActiveObject);
         for (SokobanObject possibleCollision : possibleCollisions) {
-            ((ActiveObject)this).interactWith(possibleCollision);
+            ((ActiveObject)possibleCollision).interactWith(this);
         }
     }
 }

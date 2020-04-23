@@ -22,6 +22,8 @@ public class Objective extends SokobanObject implements ActiveObject {
     public void interactWith(SokobanObject object) {
         if (object instanceof Player) {
             this.setState(0);
+        } else if (object instanceof Box) {
+            this.setState(1);
         }
     }
 }

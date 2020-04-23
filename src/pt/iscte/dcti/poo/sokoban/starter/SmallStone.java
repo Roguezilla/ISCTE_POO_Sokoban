@@ -1,6 +1,5 @@
 package pt.iscte.dcti.poo.sokoban.starter;
 
-import pt.iul.ista.poo.gui.ImageMatrixGUI;
 import pt.iul.ista.poo.utils.Point2D;
 
 public class SmallStone extends MovableObject implements ActiveObject {
@@ -13,9 +12,6 @@ public class SmallStone extends MovableObject implements ActiveObject {
     public void interactWith(SokobanObject object) {
         if (object instanceof Player) {
             this.move(((Player)object).getDirection());
-        } else if (object instanceof Hole) {
-            Sokoban.getInstance().objects.remove(this);
-            ImageMatrixGUI.getInstance().removeImage(this);
         }
     }
 }

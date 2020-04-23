@@ -89,6 +89,10 @@ public class Sokoban implements Observer {
 			e.printStackTrace();
 		}
 
+		if (this.objects.stream().filter(sokobanObject -> sokobanObject instanceof Objective).count() != this.objects.stream().filter(sokobanObject -> sokobanObject instanceof Box).count()) {
+			throw new IllegalArgumentException("Number of boxes and objectives don't match.");
+		}
+
 		ImageMatrixGUI.getInstance().addImages(tileSet);
 	}
 

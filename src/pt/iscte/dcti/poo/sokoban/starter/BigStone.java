@@ -15,11 +15,13 @@ public class BigStone extends MovableObject implements ActiveObject, DynamicObje
     public void interactWith(SokobanObject object) {
         if (object instanceof Player) {
             this.move(((Player)object).getDirection());
-        } else if (object instanceof Hole) {
-            this.isInHole = true;
-            Sokoban.getInstance().objects.remove(object);
-            ImageMatrixGUI.getInstance().removeImage(object);
         }
+    }
+
+
+    @Override
+    public void setState(boolean state) {
+        this.isInHole = state;
     }
 
     @Override

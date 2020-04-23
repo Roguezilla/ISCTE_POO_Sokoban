@@ -13,11 +13,6 @@ public class Box extends MovableObject implements ActiveObject {
     public void interactWith(SokobanObject object) {
         if (object instanceof Player) {
             this.move(((Player)object).getDirection());
-        } else if (object instanceof Objective) {
-            ((Objective)object).setState(1);
-        } else if (object instanceof Hole) {
-            ImageMatrixGUI.getInstance().dispose();
-            System.exit(1);
         }
     }
 }
