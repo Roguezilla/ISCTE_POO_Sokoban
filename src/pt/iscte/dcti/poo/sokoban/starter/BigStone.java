@@ -20,8 +20,8 @@ public class BigStone extends MovableObject implements ActiveObject, DynamicObje
 
 
     @Override
-    public void setState(boolean state) {
-        this.isInHole = state;
+    public void setMovability(boolean state) {
+        this.isInHole = !state;
     }
 
     @Override

@@ -113,28 +113,23 @@ public class Sokoban implements Observer {
 		this.player = null;
 	}
 
-	private void saveScore() {
+	private void saveScore() throws IOException {
 		//create a score folder if it doesnt exist
 		File score_folder = new File("level_scores");
 		score_folder.mkdir();
+
 		//create a score file for each level if it doesnt exist already, file.createNewFile() handles this for us
 		for(File file : new File("levels").listFiles()) {
-			try {
-				new File(score_folder.getPath() + "/" + file.getName()).createNewFile();
-			} catch (IOException e) {
-				System.out.println("Can't create " + score_folder.getPath() + "/" + file.getName());
-			}
+			new File(score_folder.getPath() + "/" + file.getName()).createNewFile();
 		}
+
 		//the function for the score system is score = 10000 / moves
 		int score = 10000 / this.player.getTotalMoves();
 		System.out.println("Moves: " + this.player.getTotalMoves() + " Score: " + score);
-		try {
-			FileWriter fileWriter = new FileWriter(new File(score_folder.getPath() + "/" + "level" + this.level + ".txt"), true);
-			fileWriter.write(score + ", ");
-			fileWriter.close();
-		} catch (IOException e) {
-			System.out.println("Can't find " + score_folder.getPath() + "/" + "level" + this.level + ".txt");
-		}
+
+		FileWriter fileWriter = new FileWriter(new File(score_folder.getPath() + "/" + "level" + this.level + ".txt"), true);
+		fileWriter.write(score + ", ");
+		fileWriter.close();
 	}
 
 	@Override
@@ -147,17 +142,22 @@ public class Sokoban implements Observer {
 		//avoid checking objectives if we already beat all levels
 		if (!this.gameWon) {
 			//did we beat the current level? if so, advance to the next one and save score.
+			File[] levels = new File("levels").listFiles();
 			if (this.objects.stream().filter(sokobanObject -> sokobanObject instanceof Objective).mapToInt(sokobanObject -> ((Objective)sokobanObject).getState()).sum() == this.objects.stream().filter(sokobanObject -> sokobanObject instanceof Objective).count()
-					&& this.level <= (new File("levels").listFiles().length - 1)) {
+					&& this.level <= levels.length - 1) {
 				//handles score saving
-				this.saveScore();
+				try {
+					this.saveScore();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 				//did we complete all levels?
-				if (this.level == (new File("levels").listFiles().length - 1)) {
+				if (this.level == levels.length - 1) {
 					ImageMatrixGUI.getInstance().setName("Victory!");
 					this.gameWon = true;
 				}
 				//advance level if we arent on the last level
-				if (this.level < (new File("levels").listFiles().length - 1)) {
+				if (this.level < levels.length - 1) {
 					this.clearGameData();
 					this.buildLevel(++this.level);
 				}
