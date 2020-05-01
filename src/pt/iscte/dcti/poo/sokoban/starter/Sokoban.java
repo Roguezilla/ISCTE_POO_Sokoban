@@ -40,6 +40,10 @@ public class Sokoban implements Observer {
 		return INSTANCE;
 	}
 
+	public Player getPlayer() {
+		return this.player;
+	}
+
 	private ImageTile getImageTileFromChar(char currentChar, int x, int y) {
 		switch (currentChar) {
 			case '#': {
@@ -56,9 +60,24 @@ public class Sokoban implements Observer {
 				return new BigStone(new Point2D(x, y), "BigStone");
 			} case 'b': {
 				return new Battery(new Point2D(x, y), "Bateria");
+			} case 'g': {
+				return new Ice(new Point2D(x, y), "Gelo");
+			} case 'm': {
+				return new Hammer(new Point2D(x, y), "Martelo");
+			} case '%': {
+				return new BreakableWall(new Point2D(x, y), "Parede_Partida");
+			} case 't': {
+				if (this.selectObject(sokobanObject -> sokobanObject instanceof PortalEntrance) == null) {
+					return new PortalEntrance(new Point2D(x, y), "Portal_Azul");
+				} else {
+					PortalExit portalExit = new PortalExit(new Point2D(x, y), "Portal_Verde");
+					portalExit.link((PortalEntrance)this.selectObject(sokobanObject -> sokobanObject instanceof PortalEntrance));
+					return portalExit;
+				}
 			} case 'E': {
 				this.player = new Player(new Point2D(x, y));
-				return player;
+				this.objects.remove(this.player);
+				return this.player;
 			} default: {
 				return new Floor(new Point2D(x, y), "Chao");
 			}

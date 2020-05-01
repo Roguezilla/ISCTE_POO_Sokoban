@@ -5,6 +5,10 @@ import pt.iul.ista.poo.utils.Point2D;
 public class Wall extends SokobanObject implements StaticObject {
     public Wall(Point2D position, String imageName) {
         super(2, position, imageName);
-        Sokoban.getInstance().objects.add(this);
+    }
+
+    @Override
+    public boolean isBreakable() {
+        return false;
     }
 }

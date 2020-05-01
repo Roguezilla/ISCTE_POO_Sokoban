@@ -7,7 +7,6 @@ public class Objective extends SokobanObject implements ActiveObject {
 
     public Objective(Point2D position, String imageName) {
         super(2, position, imageName);
-        Sokoban.getInstance().objects.add(this);
     }
 
     public int getState() {

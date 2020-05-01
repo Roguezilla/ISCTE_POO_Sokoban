@@ -13,6 +13,8 @@ public abstract class SokobanObject implements ImageTile {
         this.layer = layer;
         this.position = position;
         this.imageName = imageName;
+
+        Sokoban.getInstance().objects.add(this);
     }
 
     @Override

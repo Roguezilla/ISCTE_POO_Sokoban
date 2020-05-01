@@ -18,6 +18,7 @@ public class Player extends MovableObject {
 
 	private int energy = 100;
 	private int totalMoves = 0;
+	private boolean hasHammer = false;
 	private Direction direction;
 	
 	public Player(Point2D position) {
@@ -36,12 +37,24 @@ public class Player extends MovableObject {
 		this.energy += amount;
 	}
 
+	public void giveHammer() {
+		this.hasHammer = true;
+	}
+
+	public boolean hasHammer() {
+		return this.hasHammer;
+	}
+
 	public int getTotalMoves() {
-		return this.totalMoves;
+		return totalMoves;
 	}
 
 	public Direction getDirection() {
 		return this.direction;
+	}
+
+	public Point2D getPosition() {
+		return this.position;
 	}
 
 	@Override
@@ -49,7 +62,7 @@ public class Player extends MovableObject {
 		//are we in bounds? walls make this kinda useless, but you never know
 		if (!(position.getX() >=0 && position.getX() < 10 && position.getY() >= 0 && position.getY() < 10)) return false;
 		//did we hit a static object? if so, dont move
-		if (Sokoban.getInstance().selectObject(sokobanObject -> sokobanObject instanceof StaticObject && sokobanObject.isAt(position)) != null) return false;
+		if (Sokoban.getInstance().selectObject(sokobanObject -> sokobanObject instanceof StaticObject && sokobanObject.isAt(position) && !((StaticObject)sokobanObject).isBreakable()) != null) return false;
 		//did we hit a dynamic obstacle? if so, we check if that object can move and if not we dont move either
 		if (Sokoban.getInstance().selectObject(sokobanObject -> sokobanObject instanceof DynamicObject && sokobanObject.isAt(position) && ((DynamicObject)sokobanObject).canMove()) != null) return false;
 		//did we hit a movable object? if so, can that movable object be moved?

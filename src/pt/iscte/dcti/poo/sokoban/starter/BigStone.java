@@ -1,6 +1,5 @@
 package pt.iscte.dcti.poo.sokoban.starter;
 
-import pt.iul.ista.poo.gui.ImageMatrixGUI;
 import pt.iul.ista.poo.utils.Point2D;
 
 public class BigStone extends MovableObject implements ActiveObject, DynamicObject {
@@ -8,7 +7,6 @@ public class BigStone extends MovableObject implements ActiveObject, DynamicObje
 
     public BigStone(Point2D position, String imageName) {
         super(3, position, imageName);
-        Sokoban.getInstance().objects.add(this);
     }
 
     @Override
@@ -17,7 +15,6 @@ public class BigStone extends MovableObject implements ActiveObject, DynamicObje
             this.move(((Player)object).getDirection());
         }
     }
-
 
     @Override
     public void setMovability(boolean state) {

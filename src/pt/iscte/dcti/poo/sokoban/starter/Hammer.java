@@ -3,22 +3,16 @@ package pt.iscte.dcti.poo.sokoban.starter;
 import pt.iul.ista.poo.gui.ImageMatrixGUI;
 import pt.iul.ista.poo.utils.Point2D;
 
-public class Battery extends SokobanObject implements ActiveObject, PickupableObject {
-    private final int CHARGE = 100;
-
-    public Battery(Point2D position, String imageName) {
+public class Hammer extends SokobanObject implements ActiveObject, PickupableObject {
+    public Hammer(Point2D position, String imageName) {
         super(2, position, imageName);
-    }
-
-    public int getCharge() {
-        return this.CHARGE;
     }
 
     @Override
     public void interactWith(SokobanObject object) {
-        //a "just to be safe" check, other objects shouldnt be able to interact with batteries anyways
+        //a "just to be safe" check, other objects shouldnt be able to interact with hammers anyways
         if (object instanceof Player) {
-            ((Player)object).addEnergy(this.getCharge());
+            ((Player)object).giveHammer();
             Sokoban.getInstance().objects.remove(this);
             ImageMatrixGUI.getInstance().removeImage(this);
         }
