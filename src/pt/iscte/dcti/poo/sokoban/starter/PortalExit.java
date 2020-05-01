@@ -23,7 +23,8 @@ public class PortalExit extends SokobanObject implements ActiveObject {
 
     @Override
     public void interactWith(SokobanObject object) {
-        if (Sokoban.getInstance().selectObject(sokobanObject -> sokobanObject.isAt(this.portalEntrance.position) && sokobanObject instanceof MovableObject) == null)
+        if (Sokoban.getInstance().selectObject(sokobanObject -> sokobanObject.isAt(this.portalEntrance.position) && sokobanObject instanceof MovableObject) == null) {
             object.position = this.portalEntrance.position;
+        }
     }
 }

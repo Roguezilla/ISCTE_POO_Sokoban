@@ -46,7 +46,7 @@ public class Player extends MovableObject {
 	}
 
 	public int getTotalMoves() {
-		return totalMoves;
+		return this.totalMoves;
 	}
 
 	public Direction getDirection() {

@@ -67,15 +67,18 @@ public class Sokoban implements Observer {
 			} case '%': {
 				return new BreakableWall(new Point2D(x, y), "Parede_Partida");
 			} case 't': {
+				//first 't' found becomes the portal entrance, we know its the first 't' because there are no portal available
 				if (this.selectObject(sokobanObject -> sokobanObject instanceof PortalEntrance) == null) {
 					return new PortalEntrance(new Point2D(x, y), "Portal_Azul");
 				} else {
+					//second 't' becomes the exit and we also have to link both portals
 					PortalExit portalExit = new PortalExit(new Point2D(x, y), "Portal_Verde");
 					portalExit.link((PortalEntrance)this.selectObject(sokobanObject -> sokobanObject instanceof PortalEntrance));
 					return portalExit;
 				}
 			} case 'E': {
 				this.player = new Player(new Point2D(x, y));
+				//we dont need to the player in the objects list
 				this.objects.remove(this.player);
 				return this.player;
 			} default: {
