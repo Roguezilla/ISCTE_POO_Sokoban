@@ -12,7 +12,7 @@ public class Hammer extends SokobanObject implements ActiveObject, PickupableObj
     public void interactWith(SokobanObject object) {
         //a "just to be safe" check, other objects shouldnt be able to interact with hammers anyways
         if (object instanceof Player) {
-            ((Player)object).giveHammer();
+            ((Player)object).addAbility(this);
             Sokoban.getInstance().objects.remove(this);
             ImageMatrixGUI.getInstance().removeImage(this);
         }

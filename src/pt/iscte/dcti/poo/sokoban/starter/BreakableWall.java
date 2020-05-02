@@ -11,7 +11,7 @@ public class BreakableWall extends SokobanObject implements StaticObject, Active
     @Override
     public void interactWith(SokobanObject object) {
         if (object instanceof Player) {
-            if (((Player)object).hasHammer()) {
+            if (((Player)object).hasAbility(pickupableObject -> pickupableObject instanceof Hammer)) {
                 Sokoban.getInstance().objects.remove(this);
                 ImageMatrixGUI.getInstance().removeImage(this);
             }
@@ -20,6 +20,6 @@ public class BreakableWall extends SokobanObject implements StaticObject, Active
 
     @Override
     public boolean isBreakable() {
-        return Sokoban.getInstance().getPlayer().hasHammer();
+        return Sokoban.getInstance().getPlayer().hasAbility(pickupableObject -> pickupableObject instanceof Hammer);
     }
 }

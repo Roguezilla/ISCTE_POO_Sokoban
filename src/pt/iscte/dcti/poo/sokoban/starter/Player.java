@@ -3,8 +3,10 @@ package pt.iscte.dcti.poo.sokoban.starter;
 import pt.iul.ista.poo.utils.Direction;
 import pt.iul.ista.poo.utils.Point2D;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.function.Predicate;
 
 public class Player extends MovableObject {
 	private HashMap<Direction, String> facingImage = new HashMap<>() {
@@ -20,6 +22,8 @@ public class Player extends MovableObject {
 	private int totalMoves = 0;
 	private boolean hasHammer = false;
 	private Direction direction;
+	//abilities are aquired from pickupables
+	private List<PickupableObject> abilities = new ArrayList<>();
 	
 	public Player(Point2D position) {
 		super(3, position, "Empilhadora_U");
@@ -40,12 +44,12 @@ public class Player extends MovableObject {
 		this.energy += amount;
 	}
 
-	public void giveHammer() {
-		this.hasHammer = true;
+	public void addAbility(PickupableObject ability) {
+		this.abilities.add(ability);
 	}
 
-	public boolean hasHammer() {
-		return this.hasHammer;
+	public boolean hasAbility(Predicate<PickupableObject> predicate) {
+		return this.abilities.stream().filter(predicate).findFirst().orElse(null) != null;
 	}
 
 	public int getTotalMoves() {
