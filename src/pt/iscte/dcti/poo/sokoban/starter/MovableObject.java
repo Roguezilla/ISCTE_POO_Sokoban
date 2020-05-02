@@ -28,7 +28,7 @@ public abstract class MovableObject extends SokobanObject {
         Point2D newPosition = this.position.plus(direction.asVector());
         if (!this.canMoveTo(newPosition)) return;
 
-        this.position = newPosition;
+        this.setPosition(newPosition);
 
         //get all the active objects that the movable objects collided with and interact with them
         List<SokobanObject> possibleCollisions = Sokoban.getInstance().selectObjects(sokobanObject -> sokobanObject.isAt(newPosition) && sokobanObject instanceof ActiveObject);

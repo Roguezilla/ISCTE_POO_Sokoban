@@ -20,6 +20,9 @@ public class Objective extends SokobanObject implements ActiveObject {
     @Override
     public void interactWith(SokobanObject object) {
         if (object instanceof Player) {
+            //instead of writing a ton of code to check if a box was moved from an objective to change states
+            //we can just set an objective's state to 0 when the player passes over it, cuz that always happens
+            //when the player tries moving a box from an objective
             this.setState(0);
         } else if (object instanceof Box) {
             this.setState(1);

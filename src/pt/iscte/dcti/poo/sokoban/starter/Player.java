@@ -53,10 +53,6 @@ public class Player extends MovableObject {
 		return this.direction;
 	}
 
-	public Point2D getPosition() {
-		return this.position;
-	}
-
 	@Override
 	public boolean canMoveTo(Point2D position) {
 		//are we in bounds? walls make this kinda useless, but you never know
@@ -80,7 +76,7 @@ public class Player extends MovableObject {
 		Point2D newPosition = position.plus(direction.asVector());
 		if (!this.canMoveTo(newPosition)) return;
 
-		this.position = newPosition;
+		this.setPosition(newPosition);;
 
 		//get all the active objects that the player collided with and interact with them. best case example as to explain multiple collision handling here is when the player moves a box from an objective
 		List<SokobanObject> possibleCollisions = Sokoban.getInstance().selectObjects(sokobanObject -> sokobanObject.getPosition().equals(newPosition) && sokobanObject instanceof ActiveObject);
