@@ -72,15 +72,13 @@ public class Sokoban implements Observer {
 					return new Portal(new Point2D(x, y), "Portal_Azul");
 				} else {
 					//for second 't' found we have to create a variable for it first so we can link it with
-					//the previously created portal that we can easily get by ysing selectObject
-					Portal portalExit = new Portal(new Point2D(x, y), "Portal_Verde");
-					portalExit.link((Portal)this.selectObject(sokobanObject -> sokobanObject instanceof Portal));
-					return portalExit;
+					//the previously created portal that we can easily get by using selectObject
+					Portal portal = new Portal(new Point2D(x, y), "Portal_Verde");
+					portal.link((Portal)this.selectObject(sokobanObject -> sokobanObject instanceof Portal));
+					return portal;
 				}
 			} case 'E': {
 				this.player = new Player(new Point2D(x, y));
-				//we dont need to the player in the objects list
-				this.objects.remove(this.player);
 				return this.player;
 			} default: {
 				return new Floor(new Point2D(x, y), "Chao");
@@ -91,7 +89,7 @@ public class Sokoban implements Observer {
 	private void buildLevel(int level) {
 		List<ImageTile> tileSet = new ArrayList<>();
 
-		//fill the screen with floor tiles first so that we dont have to worry about missing floor under movable objects after we move them from their initial position
+		//fill the screen with floor tiles first so that we dont have to worry about missing floor under movable objects after we move/remove them
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 10; j++) {
 				tileSet.add(new Floor(new Point2D(i, j), "Chao"));

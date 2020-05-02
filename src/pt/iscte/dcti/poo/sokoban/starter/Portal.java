@@ -23,7 +23,7 @@ public class Portal extends SokobanObject implements ActiveObject {
 
     @Override
     public void interactWith(SokobanObject object) {
-        if (Sokoban.getInstance().selectObject(sokobanObject -> sokobanObject.isAt(this.link.getPosition()) && sokobanObject instanceof MovableObject) == null) {
+        if (this.link != null && Sokoban.getInstance().selectObject(sokobanObject -> sokobanObject.isAt(this.link.getPosition()) && sokobanObject instanceof MovableObject) == null) {
             object.setPosition(this.link.getPosition());
         }
     }

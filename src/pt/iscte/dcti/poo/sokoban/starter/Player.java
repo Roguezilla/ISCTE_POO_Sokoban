@@ -23,6 +23,9 @@ public class Player extends MovableObject {
 	
 	public Player(Point2D position) {
 		super(3, position, "Empilhadora_U");
+		//MovableObject inherits from SokobanObject and the constructor of SokobanObject adds created objects to
+		//the objects list and the player is the only object we dont need in it so we remove it
+		Sokoban.getInstance().objects.remove(this);
 	}
 
 	public void setImageName(String imageName) {
