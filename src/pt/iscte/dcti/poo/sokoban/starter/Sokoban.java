@@ -33,7 +33,11 @@ public class Sokoban implements Observer {
 		if (INSTANCE == null) {
 			INSTANCE = new Sokoban();
 			//intialize the first level
-			INSTANCE.buildLevel(INSTANCE.level);
+			try {
+				INSTANCE.buildLevel(INSTANCE.level);
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
 			ImageMatrixGUI.getInstance().setStatusMessage("Level: " + INSTANCE.level + " Moves: " + INSTANCE.player.getTotalMoves() + " Energy: " + INSTANCE.player.getEnergy());
 		}
 
@@ -44,7 +48,7 @@ public class Sokoban implements Observer {
 		return this.player;
 	}
 
-	private ImageTile getImageTileFromChar(char currentChar, int x, int y) {
+	private ImageTile charToImageTile(char currentChar, int x, int y) {
 		switch (currentChar) {
 			case '#': {
 				return new Wall(new Point2D(x, y), "Parede");
@@ -86,7 +90,7 @@ public class Sokoban implements Observer {
 		}
 	}
 
-	private void buildLevel(int level) {
+	private void buildLevel(int level) throws FileNotFoundException {
 		List<ImageTile> tileSet = new ArrayList<>();
 
 		//fill the screen with floor tiles first so that we dont have to worry about missing floor under movable objects after we move/remove them
@@ -96,18 +100,14 @@ public class Sokoban implements Observer {
 			}
 		}
 
-		try {
-			Scanner scanner = new Scanner(new File("levels/level" + level + ".txt"));
-			int y = 0;
-			while (scanner.hasNextLine()) {
-				char[] next = scanner.nextLine().toCharArray();
-				for (int i = 0; i < next.length; i++) {
-					tileSet.add(this.getImageTileFromChar(next[i], i, y));
-				}
-				y++;
+		Scanner scanner = new Scanner(new File("levels/level" + level + ".txt"));
+		int y = 0;
+		while (scanner.hasNextLine()) {
+			char[] next = scanner.nextLine().toCharArray();
+			for (int i = 0; i < next.length; i++) {
+				tileSet.add(this.charToImageTile(next[i], i, y));
 			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			y++;
 		}
 
 		if (this.objects.stream().filter(sokobanObject -> sokobanObject instanceof Objective).count() != this.objects.stream().filter(sokobanObject -> sokobanObject instanceof Box).count()) {
@@ -181,7 +181,11 @@ public class Sokoban implements Observer {
 				//advance level if we arent on the last level
 				if (this.level < levels.length - 1) {
 					this.clearGameData();
-					this.buildLevel(++this.level);
+					try {
+						this.buildLevel(++this.level);
+					} catch (FileNotFoundException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		}
