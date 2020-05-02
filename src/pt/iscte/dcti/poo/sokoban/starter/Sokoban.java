@@ -164,19 +164,20 @@ public class Sokoban implements Observer {
 		if (!this.gameWon) {
 			//did we beat the current level? if so, advance to the next one and save score.
 			File[] levels = new File("levels").listFiles();
-			if (this.objects.stream().filter(sokobanObject -> sokobanObject instanceof Objective).mapToInt(sokobanObject -> ((Objective)sokobanObject).getState()).sum() == this.objects.stream().filter(sokobanObject -> sokobanObject instanceof Objective).count()
-					&& this.level <= levels.length - 1) {
+			if (Objective.areAllObjectivesActive() && this.level <= levels.length - 1) {
 				//handles score saving
 				try {
 					this.saveScore();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
+
 				//did we complete all levels?
 				if (this.level == levels.length - 1) {
 					ImageMatrixGUI.getInstance().setName("Victory!");
 					this.gameWon = true;
 				}
+
 				//advance level if we arent on the last level
 				if (this.level < levels.length - 1) {
 					this.clearGameData();

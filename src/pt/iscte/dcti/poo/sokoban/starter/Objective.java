@@ -28,4 +28,9 @@ public class Objective extends SokobanObject implements ActiveObject {
             this.setState(1);
         }
     }
+
+    public static boolean areAllObjectivesActive() {
+        return Sokoban.getInstance().objects.stream().filter(sokobanObject -> sokobanObject instanceof Objective).mapToInt(sokobanObject -> ((Objective)sokobanObject).getState()).sum() ==
+                Sokoban.getInstance().objects.stream().filter(sokobanObject -> sokobanObject instanceof Objective).count();
+    }
 }
