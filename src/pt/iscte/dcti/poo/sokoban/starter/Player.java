@@ -32,7 +32,7 @@ public class Player extends MovableObject {
 		Sokoban.getInstance().objects.remove(this);
 	}
 
-	public void setImageName(String imageName) {
+	public void setImage(String imageName) {
 		this.imageName = imageName;
 	}
 
@@ -44,16 +44,21 @@ public class Player extends MovableObject {
 		this.energy += amount;
 	}
 
+	public int getTotalMoves() {
+		return this.totalMoves;
+	}
+
 	public void addAbility(PickupableObject ability) {
 		this.abilities.add(ability);
 	}
 
-	public boolean hasAbility(Predicate<PickupableObject> predicate) {
-		return this.abilities.stream().filter(predicate).findFirst().orElse(null) != null;
+	//not really needed, but might be useful for "future" mechanics
+	public void removeAbility(PickupableObject ability) {
+		this.abilities.remove(ability);
 	}
 
-	public int getTotalMoves() {
-		return this.totalMoves;
+	public boolean hasAbility(Predicate<PickupableObject> predicate) {
+		return this.abilities.stream().filter(predicate).findFirst().orElse(null) != null;
 	}
 
 	public Direction getDirection() {
@@ -80,10 +85,10 @@ public class Player extends MovableObject {
 	public void move(Direction direction) {
 		this.direction = direction;
 
-		Point2D newPosition = position.plus(direction.asVector());
+		Point2D newPosition = this.getPosition().plus(direction.asVector());
 		if (!this.canMoveTo(newPosition)) return;
 
-		this.setPosition(newPosition);;
+		this.setPosition(newPosition);
 
 		//get all the active objects that the player collided with and interact with them. best case example as to explain multiple collision handling here is when the player moves a box from an objective
 		List<SokobanObject> possibleCollisions = Sokoban.getInstance().selectObjects(sokobanObject -> sokobanObject.getPosition().equals(newPosition) && sokobanObject instanceof ActiveObject);
@@ -96,6 +101,6 @@ public class Player extends MovableObject {
 		this.energy--;
 
 		//set the right image based on the facing direction
-		this.setImageName(this.facingImage.get(direction));
+		this.setImage(this.facingImage.get(direction));
 	}
 }
