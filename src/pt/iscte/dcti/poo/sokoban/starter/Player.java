@@ -20,7 +20,6 @@ public class Player extends MovableObject {
 
 	private int energy = 100;
 	private int totalMoves = 0;
-	private boolean hasHammer = false;
 	private Direction direction;
 	//abilities are aquired from pickupables
 	private List<PickupableObject> abilities = new ArrayList<>();
