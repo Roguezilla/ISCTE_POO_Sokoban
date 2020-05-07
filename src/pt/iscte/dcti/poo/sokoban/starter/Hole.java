@@ -14,8 +14,8 @@ public class Hole extends SokobanObject implements ActiveObject {
             ImageMatrixGUI.getInstance().dispose();
             System.exit(0);
         } else if (object instanceof Box) {
-            ImageMatrixGUI.getInstance().dispose();
-            System.exit(0);
+            Sokoban.getInstance().objects.remove(object);
+            ImageMatrixGUI.getInstance().removeImage(object);
         } else if (object instanceof BigStone) {
             ((BigStone)object).setMovability(false);
             Sokoban.getInstance().objects.remove(this);

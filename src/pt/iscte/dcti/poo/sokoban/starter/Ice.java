@@ -15,7 +15,7 @@ public class Ice extends SokobanObject implements ActiveObject {
         //objects are moved in the direction the player is moving
         Direction playerDir = Sokoban.getInstance().getPlayer().getDirection();
         movableObject.move(playerDir);
-        //HACK: fixes the player and the movable object being moved to the same spot after the player tries moving it from when its on ice due to a previous collision
+        //fixes the player and the movable object being moved to the same spot after the player tries moving it from when its on ice due to a previous collision
         SokobanObject onIce = Sokoban.getInstance().selectObject(sokobanObject -> sokobanObject.isAt(this.getPosition()) && sokobanObject instanceof MovableObject);
         if (onIce != null) {
             ((MovableObject)onIce).move(Sokoban.getInstance().getPlayer().getDirection());
