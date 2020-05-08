@@ -1,5 +1,6 @@
 package pt.iscte.dcti.poo.sokoban.starter;
 
+import pt.iul.ista.poo.gui.ImageMatrixGUI;
 import pt.iul.ista.poo.utils.Point2D;
 
 public class BigStone extends MovableObject implements ActiveObject, DynamicObject {
@@ -24,5 +25,11 @@ public class BigStone extends MovableObject implements ActiveObject, DynamicObje
     @Override
     public boolean canMove() {
         return this.isInHole;
+    }
+
+    @Override
+    void interactWithHole(SokobanObject object) {
+        this.setMovability(false);
+        Sokoban.getInstance().disposeObject(object);
     }
 }

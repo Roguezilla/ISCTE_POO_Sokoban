@@ -5,16 +5,16 @@ import pt.iul.ista.poo.utils.Point2D;
 
 //every object in the game extends this class
 public abstract class SokobanObject implements ImageTile {
-    Point2D position;
-    String imageName;
-    int layer;
+    private Point2D position;
+    private String imageName;
+    private int layer;
 
     SokobanObject(int layer, Point2D position, String imageName) {
         this.layer = layer;
         this.position = position;
         this.imageName = imageName;
 
-        Sokoban.getInstance().objects.add(this);
+        Sokoban.getInstance().getObjects().add(this);
     }
 
     @Override
@@ -30,6 +30,10 @@ public abstract class SokobanObject implements ImageTile {
     @Override
     public String getName() {
         return this.imageName;
+    }
+
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
     }
 
     public void setPosition(Point2D position) {

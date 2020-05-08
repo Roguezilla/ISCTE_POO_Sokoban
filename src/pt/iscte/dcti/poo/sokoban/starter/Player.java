@@ -29,11 +29,11 @@ public class Player extends MovableObject {
 		super(3, position, "Empilhadora_U");
 		//MovableObject inherits from SokobanObject and the constructor of SokobanObject adds created objects to
 		//the objects list and the player is the only object we dont need in it so we remove it
-		Sokoban.getInstance().objects.remove(this);
+		Sokoban.getInstance().getObjects().remove(this);
 	}
 
 	public void setImage(String imageName) {
-		this.imageName = imageName;
+		this.setImageName(imageName);
 	}
 
 	public int getEnergy() {
@@ -79,6 +79,12 @@ public class Player extends MovableObject {
 			return possibleCollision.canMoveTo(position.plus(this.getDirection().asVector()));
 		}
 		return true;
+	}
+
+	@Override
+	void interactWithHole(SokobanObject object) {
+		ImageMatrixGUI.getInstance().dispose();
+		System.exit(0);
 	}
 
 	@Override

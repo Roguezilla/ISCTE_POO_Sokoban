@@ -13,4 +13,9 @@ public class SmallStone extends MovableObject implements ActiveObject {
             this.move(((Player)object).getDirection());
         }
     }
+
+    @Override
+    void interactWithHole(SokobanObject object) {
+        Sokoban.getInstance().disposeObject(this);
+    }
 }

@@ -25,7 +25,7 @@ public abstract class MovableObject extends SokobanObject {
     }
 
     public void move(Direction direction) {
-        Point2D newPosition = this.position.plus(direction.asVector());
+        Point2D newPosition = this.getPosition().plus(direction.asVector());
         if (!this.canMoveTo(newPosition)) return;
 
         this.setPosition(newPosition);
@@ -36,4 +36,6 @@ public abstract class MovableObject extends SokobanObject {
             ((ActiveObject)possibleCollision).interactWith(this);
         }
     }
+
+    abstract void interactWithHole(SokobanObject object);
 }

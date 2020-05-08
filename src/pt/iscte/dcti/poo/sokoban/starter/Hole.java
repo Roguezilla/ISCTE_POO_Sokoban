@@ -10,19 +10,7 @@ public class Hole extends SokobanObject implements ActiveObject {
 
     @Override
     public void interactWith(SokobanObject object) {
-        if (object instanceof Player) {
-            ImageMatrixGUI.getInstance().dispose();
-            System.exit(0);
-        } else if (object instanceof Box) {
-            Sokoban.getInstance().objects.remove(object);
-            ImageMatrixGUI.getInstance().removeImage(object);
-        } else if (object instanceof BigStone) {
-            ((BigStone)object).setMovability(false);
-            Sokoban.getInstance().objects.remove(this);
-            ImageMatrixGUI.getInstance().removeImage(this);
-        } else if (object instanceof SmallStone) {
-            Sokoban.getInstance().objects.remove(object);
-            ImageMatrixGUI.getInstance().removeImage(object);
-        }
+        //all objects that can interact with a hole are instances of MovableObject, so the cast is safe
+        ((MovableObject)object).interactWithHole(this);
     }
 }

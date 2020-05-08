@@ -21,7 +21,7 @@ public class Sokoban implements Observer {
 	//stores the instance
 	private static Sokoban INSTANCE = null;
 	//a list of every object in the game
- 	public List<SokobanObject> objects = new ArrayList<>();
+ 	private List<SokobanObject> objects = new ArrayList<>();
  	//stores the instance of the player
 	private Player player;
 	//stores current level, incremented if all objectives are met
@@ -46,6 +46,15 @@ public class Sokoban implements Observer {
 
 	public Player getPlayer() {
 		return this.player;
+	}
+
+	public List<SokobanObject> getObjects() {
+		return this.objects;
+	}
+
+	public void disposeObject(SokobanObject object) {
+		Sokoban.getInstance().objects.remove(object);
+		ImageMatrixGUI.getInstance().removeImage(object);
 	}
 
 	private ImageTile charToImageTile(char currentChar, int x, int y) {
@@ -119,12 +128,12 @@ public class Sokoban implements Observer {
 
 	//handles multiple collisions at once
 	public List<SokobanObject> selectObjects(Predicate<SokobanObject> predicate) {
-		return Sokoban.getInstance().objects.stream().filter(predicate).collect(Collectors.toList());
+		return Sokoban.getInstance().getObjects().stream().filter(predicate).collect(Collectors.toList());
 	}
 
 	//handles single collisions, used for very specific collisions
 	public SokobanObject selectObject(Predicate<SokobanObject> predicate) {
-		return Sokoban.getInstance().objects.stream().filter(predicate).findFirst().orElse(null);
+		return Sokoban.getInstance().getObjects().stream().filter(predicate).findFirst().orElse(null);
 	}
 
 	//clears the level images, objects and player

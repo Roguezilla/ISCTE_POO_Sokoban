@@ -1,6 +1,5 @@
 package pt.iscte.dcti.poo.sokoban.starter;
 
-import pt.iul.ista.poo.gui.ImageMatrixGUI;
 import pt.iul.ista.poo.utils.Point2D;
 
 public class Battery extends SokobanObject implements ActiveObject, PickupableObject {
@@ -19,8 +18,7 @@ public class Battery extends SokobanObject implements ActiveObject, PickupableOb
         //a "just to be safe" check, other objects shouldnt be able to interact with batteries anyways
         if (object instanceof Player) {
             ((Player)object).addEnergy(this.getCharge());
-            Sokoban.getInstance().objects.remove(this);
-            ImageMatrixGUI.getInstance().removeImage(this);
+            Sokoban.getInstance().disposeObject(this);
         }
     }
 }
