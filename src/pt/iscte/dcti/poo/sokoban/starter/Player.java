@@ -82,7 +82,7 @@ public class Player extends MovableObject {
 	}
 
 	@Override
-	void interactWithHole(SokobanObject object) {
+	void interactWithHole(Hole hole) {
 		ImageMatrixGUI.getInstance().dispose();
 		System.exit(0);
 	}

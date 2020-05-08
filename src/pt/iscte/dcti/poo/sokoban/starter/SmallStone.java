@@ -15,7 +15,7 @@ public class SmallStone extends MovableObject implements ActiveObject {
     }
 
     @Override
-    void interactWithHole(SokobanObject object) {
+    void interactWithHole(Hole hole) {
         Sokoban.getInstance().disposeObject(this);
     }
 }

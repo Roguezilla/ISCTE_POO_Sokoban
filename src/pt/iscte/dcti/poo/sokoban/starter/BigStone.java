@@ -28,8 +28,8 @@ public class BigStone extends MovableObject implements ActiveObject, DynamicObje
     }
 
     @Override
-    void interactWithHole(SokobanObject object) {
+    void interactWithHole(Hole hole) {
         this.setMovability(false);
-        Sokoban.getInstance().disposeObject(object);
+        Sokoban.getInstance().disposeObject(hole);
     }
 }

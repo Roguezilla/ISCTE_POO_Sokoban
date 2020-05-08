@@ -37,5 +37,5 @@ public abstract class MovableObject extends SokobanObject {
         }
     }
 
-    abstract void interactWithHole(SokobanObject object);
+    abstract void interactWithHole(Hole hole);
 }
