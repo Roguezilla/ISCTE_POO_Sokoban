@@ -7,6 +7,7 @@ import pt.iul.ista.poo.observer.Observer;
 import pt.iul.ista.poo.utils.Direction;
 import pt.iul.ista.poo.utils.Point2D;
 
+import javax.swing.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -24,6 +25,8 @@ public class Sokoban implements Observer {
  	private List<SokobanObject> objects = new ArrayList<>();
  	//stores the instance of the player
 	private Player player;
+	//stores player name
+	private String playerName;
 	//stores current level, incremented if all objectives are met
 	private int level = 0;
 	//stores game state, prevents writing score after completeting the last level
@@ -32,6 +35,9 @@ public class Sokoban implements Observer {
 	public static Sokoban getInstance() {
 		if (INSTANCE == null) {
 			INSTANCE = new Sokoban();
+			//get and save player name
+			INSTANCE.playerName = JOptionPane.showInputDialog("Player name: ");
+			System.out.println(INSTANCE.playerName);
 			//intialize the first level
 			try {
 				INSTANCE.buildLevel(INSTANCE.level);
@@ -158,7 +164,7 @@ public class Sokoban implements Observer {
 		System.out.println("Moves: " + this.player.getTotalMoves() + " Score: " + score);
 
 		FileWriter fileWriter = new FileWriter(new File(score_folder.getPath() + "/" + "level" + this.level + ".txt"), true);
-		fileWriter.write(score + ", ");
+		fileWriter.write(this.playerName + " " + score + "\n");
 		fileWriter.close();
 	}
 
