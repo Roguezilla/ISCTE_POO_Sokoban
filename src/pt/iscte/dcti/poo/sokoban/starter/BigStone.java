@@ -17,7 +17,7 @@ public class BigStone extends MovableObject implements ActiveObject, DynamicObje
     }
 
     @Override
-    public void setMovability(boolean state) {
+    public void setMoveability(boolean state) {
         this.isInHole = !state;
     }
 
@@ -28,7 +28,7 @@ public class BigStone extends MovableObject implements ActiveObject, DynamicObje
 
     @Override
     void interactWithHole(Hole hole) {
-        this.setMovability(false);
+        this.setMoveability(false);
         Sokoban.getInstance().disposeObject(hole);
     }
 }
