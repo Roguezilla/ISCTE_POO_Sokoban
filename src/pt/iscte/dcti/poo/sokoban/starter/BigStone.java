@@ -1,6 +1,5 @@
 package pt.iscte.dcti.poo.sokoban.starter;
 
-import pt.iul.ista.poo.gui.ImageMatrixGUI;
 import pt.iul.ista.poo.utils.Point2D;
 
 public class BigStone extends MovableObject implements ActiveObject, DynamicObject {
