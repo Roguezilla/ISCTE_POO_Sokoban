@@ -58,7 +58,8 @@ public class Sokoban implements Observer {
 		return this.objects;
 	}
 
-	public void disposeObject(SokobanObject object) {
+	//better than always calling 2 functions
+	public static void disposeObject(SokobanObject object) {
 		Sokoban.getInstance().objects.remove(object);
 		ImageMatrixGUI.getInstance().removeImage(object);
 	}
@@ -115,6 +116,7 @@ public class Sokoban implements Observer {
 			}
 		}
 
+		//read chars from file and transform them into their equivalent objects
 		Scanner scanner = new Scanner(new File("levels/level" + level + ".txt"));
 		int y = 0;
 		while (scanner.hasNextLine()) {
@@ -163,6 +165,7 @@ public class Sokoban implements Observer {
 		int score = 10000 / this.player.getTotalMoves();
 		System.out.println("Moves: " + this.player.getTotalMoves() + " Score: " + score);
 
+		//storing scores as "playername score" allows easy score file parsing if needed in the future if needed
 		FileWriter fileWriter = new FileWriter(new File(score_folder.getPath() + "/" + "level" + this.level + ".txt"), true);
 		fileWriter.write(this.playerName + " " + score + "\n");
 		fileWriter.close();

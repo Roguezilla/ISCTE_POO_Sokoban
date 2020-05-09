@@ -18,7 +18,7 @@ public class Battery extends SokobanObject implements ActiveObject, PickupableOb
         //a "just to be safe" check, other objects shouldnt be able to interact with batteries anyways
         if (object instanceof Player) {
             ((Player)object).addEnergy(this.getCharge());
-            Sokoban.getInstance().disposeObject(this);
+            Sokoban.disposeObject(this);
         }
     }
 }

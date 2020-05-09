@@ -13,7 +13,7 @@ public class Hammer extends SokobanObject implements ActiveObject, PickupableObj
         //a "just to be safe" check, other objects shouldnt be able to interact with hammers anyways
         if (object instanceof Player) {
             ((Player)object).addAbility(this);
-            Sokoban.getInstance().disposeObject(this);
+            Sokoban.disposeObject(this);
         }
     }
 }

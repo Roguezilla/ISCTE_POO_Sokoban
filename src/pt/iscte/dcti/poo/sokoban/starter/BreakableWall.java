@@ -12,7 +12,7 @@ public class BreakableWall extends SokobanObject implements StaticObject, Active
     public void interactWith(SokobanObject object) {
         if (object instanceof Player) {
             if (((Player)object).hasAbility(pickupableObject -> pickupableObject instanceof Hammer)) {
-                Sokoban.getInstance().disposeObject(this);
+                Sokoban.disposeObject(this);
             }
         }
     }

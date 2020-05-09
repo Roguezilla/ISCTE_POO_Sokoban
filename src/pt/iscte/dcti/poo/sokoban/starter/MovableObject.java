@@ -37,5 +37,7 @@ public abstract class MovableObject extends SokobanObject {
         }
     }
 
+    //this function is abstract because every movable object has a different interaction with the hole,
+    //so we can't exactly make a universal function
     abstract void interactWithHole(Hole hole);
 }
