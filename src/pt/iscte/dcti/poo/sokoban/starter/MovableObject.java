@@ -18,8 +18,6 @@ public abstract class MovableObject extends SokobanObject {
         if (Sokoban.getInstance().selectObject(sokobanObject -> sokobanObject instanceof StaticObject && sokobanObject.isAt(position)) != null) return false;
         //did the movable object hit another movable object? if so, deny movement
         if (Sokoban.getInstance().selectObject(sokobanObject -> sokobanObject.isAt(position) && sokobanObject instanceof MovableObject) != null) return false;
-        //did the movable object hit an object the player can pick up? if so, deny movement
-        if (Sokoban.getInstance().selectObject(sokobanObject -> sokobanObject.isAt(position) && sokobanObject instanceof PickupableObject) != null) return false;
 
         return true;
     }
