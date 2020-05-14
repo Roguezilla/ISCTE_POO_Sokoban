@@ -24,7 +24,7 @@ public class Player extends MovableObject {
 	private Direction direction;
 	//abilities are aquired from pickupables
 	private List<PickupableObject> abilities = new ArrayList<>();
-	
+
 	public Player(Point2D position) {
 		super(3, position, "Empilhadora_U");
 		//MovableObject inherits from SokobanObject and the constructor of SokobanObject adds created objects to

@@ -26,7 +26,7 @@ public class Sokoban implements Observer {
  	//stores the instance of the player
 	private Player player;
 	//stores player name
-	private String playerName;
+	private String playerName = "";
 	//stores current level, incremented if all objectives are met
 	private int level = 0;
 	//stores game state, prevents writing score after completeting the last level
@@ -35,9 +35,10 @@ public class Sokoban implements Observer {
 	public static Sokoban getInstance() {
 		if (INSTANCE == null) {
 			INSTANCE = new Sokoban();
-			//get and save player name
-			INSTANCE.playerName = JOptionPane.showInputDialog("Player name: ");
-			System.out.println(INSTANCE.playerName);
+			//ask for input until the user inputs a non emptry name
+			while (INSTANCE.playerName.isEmpty()) {
+				INSTANCE.playerName = JOptionPane.showInputDialog("Player name: ");
+			}
 			//intialize the first level
 			try {
 				INSTANCE.buildLevel(INSTANCE.level);
