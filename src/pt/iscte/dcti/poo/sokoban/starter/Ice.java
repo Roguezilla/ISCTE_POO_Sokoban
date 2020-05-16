@@ -17,7 +17,7 @@ public class Ice extends SokobanObject implements ActiveObject {
         /*
         2 bugs are fixed here:
         1. fixes the player and the movable object being moved to the same spot after the player tries moving it from when its on ice due to a previous collision
-        2. objects getting moved twice
+        2. fixes objects getting moved twice
         */
         SokobanObject onIce = Sokoban.getInstance().selectObject(sokobanObject -> sokobanObject.isAt(this.getPosition()) && sokobanObject instanceof MovableObject);
         if (onIce != null) {
