@@ -92,8 +92,7 @@ public class Sokoban implements Observer {
 				if (this.selectObject(sokobanObject -> sokobanObject instanceof Portal) == null) {
 					return new Portal(new Point2D(x, y), "Portal_Azul");
 				} else {
-					//for second 't' found we have to create a variable for it first so we can link it with
-					//the previously created portal that we can easily get by using selectObject
+					//for second 't' we create a portal and link it to the previously created one
 					Portal portal = new Portal(new Point2D(x, y), "Portal_Verde");
 					portal.link((Portal)this.selectObject(sokobanObject -> sokobanObject instanceof Portal));
 					return portal;

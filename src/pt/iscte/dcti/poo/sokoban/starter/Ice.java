@@ -19,7 +19,7 @@ public class Ice extends SokobanObject implements ActiveObject {
         if (onIce != null) {
             ((MovableObject)onIce).move(Sokoban.getInstance().getPlayer().getDirection());
         }
-        //moving the object only after fixing the collision problem above fixes a bunch of collision problems
+        //move the object only after fixing the problem above(if present) so we don't get weird collision bugs
         movableObject.move(playerDir);
     }
 }
