@@ -32,7 +32,7 @@ public abstract class SokobanObject implements ImageTile {
         return this.imageName;
     }
 
-    public void setImageName(String imageName) {
+    public void setImage(String imageName) {
         this.imageName = imageName;
     }
 

@@ -165,9 +165,9 @@ public class Sokoban implements Observer {
 		int score = 10000 / this.player.getTotalMoves();
 		System.out.println("Moves: " + this.player.getTotalMoves() + " Score: " + score);
 
-		//storing scores as "playername score" allows easy score file parsing if needed in the future if needed
+		//storing scores as "playername-score" allows easy score file parsing if needed in the future
 		FileWriter fileWriter = new FileWriter(new File(score_folder.getPath() + "/" + "level" + this.level + ".txt"), true);
-		fileWriter.write(this.playerName + " " + score + "\n");
+		fileWriter.write(this.playerName + "-" + score + "\n");
 		fileWriter.close();
 	}
 

@@ -32,10 +32,6 @@ public class Player extends MovableObject {
 		Sokoban.getInstance().getObjects().remove(this);
 	}
 
-	public void setImage(String imageName) {
-		this.setImageName(imageName);
-	}
-
 	public int getEnergy() {
 		return this.energy;
 	}
@@ -91,19 +87,22 @@ public class Player extends MovableObject {
 	public void move(Direction direction) {
 		this.direction = direction;
 
+		//set the right image based on the facing direction regardless if we can move in that direction or not
+		this.setImage(this.facingImage.get(direction));
+
 		Point2D newPosition = this.getPosition().plus(direction.asVector());
 		if (!this.canMoveTo(newPosition)) return;
 
 		this.setPosition(newPosition);
 
 		//get all the active objects that the player collided with and interact with them. best case example as to explain multiple collision handling here is when the player moves a box from an objective
-		List<SokobanObject> possibleCollisions = Sokoban.getInstance().selectObjects(sokobanObject -> sokobanObject.getPosition().equals(newPosition) && sokobanObject instanceof ActiveObject);
+		List<SokobanObject> possibleCollisions = Sokoban.getInstance().selectObjects(sokobanObject -> sokobanObject.isAt(newPosition) && sokobanObject instanceof ActiveObject);
 		for (SokobanObject possibleCollision : possibleCollisions) {
 			((ActiveObject)possibleCollision).interactWith(this);
 		}
 
-		//+1 move = -1 energy
 		this.totalMoves++;
+		//+1 move = -1 energy
 		this.energy--;
 
 		//exit the game if we dont have enough energy
@@ -111,8 +110,5 @@ public class Player extends MovableObject {
 			ImageMatrixGUI.getInstance().dispose();
 			System.exit(0);
 		}
-
-		//set the right image based on the facing direction
-		this.setImage(this.facingImage.get(direction));
 	}
 }
