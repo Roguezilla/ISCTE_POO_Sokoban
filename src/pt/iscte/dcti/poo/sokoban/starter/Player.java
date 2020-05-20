@@ -44,6 +44,11 @@ public class Player extends MovableObject {
 		return this.totalMoves;
 	}
 
+	//not really needed, but might be useful for "future" mechanics
+	public List<PickupableObject> getAbilities() {
+		return this.abilities;
+	}
+
 	public void addAbility(PickupableObject ability) {
 		this.abilities.add(ability);
 	}
