@@ -126,6 +126,7 @@ public class Sokoban implements Observer {
 			}
 			y++;
 		}
+		scanner.close();
 
 		if (this.objects.stream().filter(sokobanObject -> sokobanObject instanceof Objective).count() != this.objects.stream().filter(sokobanObject -> sokobanObject instanceof Box).count()) {
 			throw new IllegalArgumentException("Number of boxes and objectives don't match.");
@@ -161,13 +162,26 @@ public class Sokoban implements Observer {
 			new File(score_folder.getPath() + "/" + file.getName()).createNewFile();
 		}
 
+		List<String> scores = new ArrayList<>();
+		Scanner prevScores = new Scanner(new File(score_folder.getPath() + "/" + "level" + this.level + ".txt"));
+		while (prevScores.hasNextLine()) {
+			scores.add(prevScores.nextLine());
+		}
+		prevScores.close();
+
 		//the function for the score system is score = 10000 / moves
 		int score = 10000 / this.player.getTotalMoves();
-		System.out.println("Moves: " + this.player.getTotalMoves() + " Score: " + score);
+		scores.add(this.playerName + "-" + score);
+		//cursed sort
+		scores.sort((a, b) -> Integer.valueOf(b.split("-")[1]).compareTo(Integer.valueOf(a.split("-")[1])));
+		String full = "";
+		for (String s : scores) {
+			full += s + "\n";
+		}
 
 		//storing scores as "playername-score" allows easy score file parsing if needed in the future
-		FileWriter fileWriter = new FileWriter(new File(score_folder.getPath() + "/" + "level" + this.level + ".txt"), true);
-		fileWriter.write(this.playerName + "-" + score + "\n");
+		FileWriter fileWriter = new FileWriter(new File(score_folder.getPath() + "/" + "level" + this.level + ".txt"));
+		fileWriter.write(full);
 		fileWriter.close();
 	}
 
