@@ -35,7 +35,7 @@ public class Sokoban implements Observer {
 	public static Sokoban getInstance() {
 		if (INSTANCE == null) {
 			INSTANCE = new Sokoban();
-			//ask for input until the user inputs a non emptry name
+			//ask for input until the user inputs a non empty name
 			while (INSTANCE.playerName.isEmpty()) {
 				INSTANCE.playerName = JOptionPane.showInputDialog("Player name: ");
 			}
