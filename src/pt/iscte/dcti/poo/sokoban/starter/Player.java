@@ -73,7 +73,7 @@ public class Player extends MovableObject {
 		//did we hit a static object? if so, dont move
 		if (Sokoban.getInstance().selectObject(sokobanObject -> sokobanObject instanceof StaticObject && sokobanObject.isAt(position) && !((StaticObject)sokobanObject).isBreakable()) != null) return false;
 		//did we hit a dynamic obstacle? if so, we check if that object can move and if not we dont move either
-		if (Sokoban.getInstance().selectObject(sokobanObject -> sokobanObject instanceof DynamicObject && sokobanObject.isAt(position) && ((DynamicObject)sokobanObject).canMove()) != null) return false;
+		if (Sokoban.getInstance().selectObject(sokobanObject -> sokobanObject instanceof DynamicObject && sokobanObject.isAt(position) && !((DynamicObject)sokobanObject).canMove()) != null) return false;
 		//did we hit a movable object? if so, can that movable object be moved?
 		MovableObject possibleCollision = (MovableObject) Sokoban.getInstance().selectObject(sokobanObject -> sokobanObject.isAt(position) && sokobanObject instanceof MovableObject);
 		if (possibleCollision != null) {

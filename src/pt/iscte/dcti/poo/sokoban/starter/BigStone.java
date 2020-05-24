@@ -23,7 +23,7 @@ public class BigStone extends MovableObject implements ActiveObject, DynamicObje
 
     @Override
     public boolean canMove() {
-        return this.isInHole;
+        return !this.isInHole;
     }
 
     @Override
