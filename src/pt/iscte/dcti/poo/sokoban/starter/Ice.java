@@ -21,10 +21,10 @@ public class Ice extends SokobanObject implements ActiveObject {
         */
         SokobanObject onIce = Sokoban.getInstance().selectObject(sokobanObject -> sokobanObject.isAt(this.getPosition()) && sokobanObject instanceof MovableObject);
         if (onIce != null) {
-            ((MovableObject)onIce).move(playerDir);
             if (movableObject instanceof Player) {
                 movableObject.move(playerDir);
             }
+            ((MovableObject)onIce).move(playerDir);
         } else {
             movableObject.move(playerDir);
         }
